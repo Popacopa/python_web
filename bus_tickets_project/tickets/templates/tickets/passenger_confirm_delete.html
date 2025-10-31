@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Удаление пассажира - Система заказа билетов{% endblock %}
+{% block header %}Удаление пассажира{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <div class="alert alert-warning">
+            <h5 class="alert-heading">Внимание!</h5>
+            <p>Вы уверены, что хотите удалить пассажира <strong>"{{ object.name }}"</strong>?</p>
+            <p class="mb-0">Это действие нельзя отменить.</p>
+        </div>
+        
+        <div class="card mb-3">
+            <div class="card-body">
+                <h6>Информация о пассажире:</h6>
+                <p><strong>ФИО:</strong> {{ object.name }}</p>
+                <p><strong>Телефон:</strong> {{ object.phone }}</p>
+                <p><strong>Паспорт:</strong> {{ object.passport_number }}</p>
+                {% if object.email %}
+                <p><strong>Email:</strong> {{ object.email }}</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <form method="post">
+            {% csrf_token %}
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="{% url 'passenger_list' %}" class="btn btn-secondary me-md-2">Отмена</a>
+                <button type="submit" class="btn btn-danger">Удалить</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

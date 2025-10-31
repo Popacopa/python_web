@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block title %}Заказы билетов - Система заказа билетов{% endblock %}
+{% block header %}Список заказов билетов{% endblock %}
+
+{% block actions %}
+<a href="{% url 'ticket_create' %}" class="btn btn-primary">
+    <i class="fas fa-plus"></i> Новый заказ
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <form method="get" class="row g-3">
+            <div class="col-md-4">
+                <select name="status" class="form-select">
+                    <option value="">Все статусы</option>
+                    <option value="pending" {% if request.GET.status == 'pending' %}selected{% endif %}>Ожидание</option>
+                    <option value="confirmed" {% if request.GET.status == 'confirmed' %}selected{% endif %}>Подтвержден</option>
+                    <option value="cancelled" {% if request.GET.status == 'cancelled' %}selected{% endif %}>Отменен</option>
+                    <option value="completed" {% if request.GET.status == 'completed' %}selected{% endif %}>Завершен</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-outline-primary">Фильтр</button>
+            </div>
+        </form>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Пассажир</th>
+                        <th>Рейс</th>
+                        <th>Дата отправления</th>
+                        <th>Место</th>
+                        <th>Цена</th>
+                        <th>Статус</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ticket in tickets %}
+                    <tr>
+                        <td>#{{ ticket.id }}</td>
+                        <td>
+                            {% if ticket.passenger.photo %}
+                            <img src="{{ ticket.passenger.photo.url }}" alt="{{ ticket.passenger.name }}" class="rounded-circle me-2" width="30" height="30">
+                            {% endif %}
+                            {{ ticket.passenger.name }}
+                        </td>
+                        <td>{{ ticket.flight }}</td>
+                        <td>{{ ticket.departure_date }}</td>
+                        <td><strong>{{ ticket.seat_number }}</strong></td>
+                        <td>{{ ticket.price }} ₽</td>
+                        <td>
+                            <span class="badge 
+                                {% if ticket.status == 'confirmed' %}bg-success
+                                {% elif ticket.status == 'pending' %}bg-warning
+                                {% elif ticket.status == 'completed' %}bg-info
+                                {% else %}bg-danger{% endif %}">
+                                {{ ticket.get_status_display }}
+                            </span>
+                        </td>
+                        <td>
+                            <a href="{% url 'ticket_detail' ticket.pk %}" class="btn btn-sm btn-outline-info">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{% url 'ticket_edit' ticket.pk %}" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="{% url 'ticket_delete' ticket.pk %}" class="btn btn-sm btn-outline-danger">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center text-muted">Заказы не найдены</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        {% if is_paginated %}
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}">Назад</a>
+                </li>
+                {% endif %}
+                
+                {% for num in page_obj.paginator.page_range %}
+                <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                    <a class="page-link" href="?page={{ num }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}">{{ num }}</a>
+                </li>
+                {% endfor %}
+                
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}">Вперед</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

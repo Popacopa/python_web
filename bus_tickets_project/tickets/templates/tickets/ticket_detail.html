@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block title %}Заказ #{{ ticket.id }} - Система заказа билетов{% endblock %}
+{% block header %}Заказ билета #{{ ticket.id }}{% endblock %}
+
+{% block actions %}
+<a href="{% url 'ticket_edit' ticket.pk %}" class="btn btn-primary me-2">
+    <i class="fas fa-edit"></i> Редактировать
+</a>
+<a href="{% url 'ticket_list' %}" class="btn btn-secondary">
+    <i class="fas fa-arrow-left"></i> Назад к списку
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Информация о заказе</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <tr>
+                        <th width="40%">Номер заказа:</th>
+                        <td>#{{ ticket.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Дата заказа:</th>
+                        <td>{{ ticket.order_date|date:"d.m.Y H:i" }}</td>
+                    </tr>
+                    <tr>
+                        <th>Статус:</th>
+                        <td>
+                            <span class="badge 
+                                {% if ticket.status == 'confirmed' %}bg-success
+                                {% elif ticket.status == 'pending' %}bg-warning
+                                {% elif ticket.status == 'completed' %}bg-info
+                                {% else %}bg-danger{% endif %}">
+                                {{ ticket.get_status_display }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Цена:</th>
+                        <td><strong>{{ ticket.price }} ₽</strong></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Информация о пассажире</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    {% if ticket.passenger.photo %}
+                    <img src="{{ ticket.passenger.photo.url }}" alt="{{ ticket.passenger.name }}" class="rounded-circle me-3" width="60" height="60">
+                    {% endif %}
+                    <div>
+                        <h6 class="mb-1">{{ ticket.passenger.name }}</h6>
+                        <p class="text-muted mb-0">Паспорт: {{ ticket.passenger.passport_number }}</p>
+                    </div>
+                </div>
+                <table class="table table-borderless">
+                    <tr>
+                        <th width="40%">Телефон:</th>
+                        <td>{{ ticket.passenger.phone }}</td>
+                    </tr>
+                    {% if ticket.passenger.email %}
+                    <tr>
+                        <th>Email:</th>
+                        <td>{{ ticket.passenger.email }}</td>
+                    </tr>
+                    {% endif %}
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Информация о рейсе</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <tr>
+                        <th width="40%">Номер рейса:</th>
+                        <td><strong>{{ ticket.flight.number }}</strong></td>
+                    </tr>
+                    <tr>
+                        <th>Маршрут:</th>
+                        <td>{{ ticket.flight.departure }} → {{ ticket.flight.destination }}</td>
+                    </tr>
+                    <tr>
+                        <th>Дата отправления:</th>
+                        <td>{{ ticket.departure_date }}</td>
+                    </tr>
+                    <tr>
+                        <th>Время:</th>
+                        <td>{{ ticket.flight.departure_time|time:"H:i" }} - {{ ticket.flight.arrival_time|time:"H:i" }}</td>
+                    </tr>
+                    <tr>
+                        <th>Место:</th>
+                        <td><strong>{{ ticket.seat_number }}</strong></td>
+                    </tr>
+                    <tr>
+                        <th>Тип автобуса:</th>
+                        <td>{{ ticket.flight.bus_type.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Оператор:</th>
+                        <td>{{ ticket.operator.name }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        {% if ticket.notes %}
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Примечания</h5>
+            </div>
+            <div class="card-body">
+                <p class="mb-0">{{ ticket.notes }}</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

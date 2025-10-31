@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Редактирование{% else %}Добавление{% endif %} пассажира - Система заказа билетов{% endblock %}
+{% block header %}{% if object %}Редактирование{% else %}Добавление{% endif %} пассажира{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                {{ error }}
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="{{ form.name.id_for_label }}" class="form-label">{{ form.name.label }}</label>
+                    {{ form.name }}
+                    {% if form.name.errors %}
+                    <div class="text-danger">{{ form.name.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="col-md-6">
+                    <label for="{{ form.phone.id_for_label }}" class="form-label">{{ form.phone.label }}</label>
+                    {{ form.phone }}
+                    {% if form.phone.errors %}
+                    <div class="text-danger">{{ form.phone.errors }}</div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="{{ form.email.id_for_label }}" class="form-label">{{ form.email.label }}</label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                    <div class="text-danger">{{ form.email.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="col-md-6">
+                    <label for="{{ form.passport_number.id_for_label }}" class="form-label">{{ form.passport_number.label }}</label>
+                    {{ form.passport_number }}
+                    {% if form.passport_number.errors %}
+                    <div class="text-danger">{{ form.passport_number.errors }}</div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="{{ form.photo.id_for_label }}" class="form-label">{{ form.photo.label }}</label>
+                {{ form.photo }}
+                {% if form.photo.errors %}
+                <div class="text-danger">{{ form.photo.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="{% url 'passenger_list' %}" class="btn btn-secondary me-md-2">Отмена</a>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

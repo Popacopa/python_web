@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Редактирование{% else %}Добавление{% endif %} оператора - Система заказа билетов{% endblock %}
+{% block header %}{% if object %}Редактирование{% else %}Добавление{% endif %} оператора{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                {{ error }}
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="{{ form.name.id_for_label }}" class="form-label">{{ form.name.label }}</label>
+                    {{ form.name }}
+                    {% if form.name.errors %}
+                    <div class="text-danger">{{ form.name.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="col-md-6">
+                    <label for="{{ form.phone.id_for_label }}" class="form-label">{{ form.phone.label }}</label>
+                    {{ form.phone }}
+                    {% if form.phone.errors %}
+                    <div class="text-danger">{{ form.phone.errors }}</div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="{{ form.email.id_for_label }}" class="form-label">{{ form.email.label }}</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                <div class="text-danger">{{ form.email.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="mb-3">
+                <label for="{{ form.photo.id_for_label }}" class="form-label">{{ form.photo.label }}</label>
+                {{ form.photo }}
+                {% if form.photo.errors %}
+                <div class="text-danger">{{ form.photo.errors }}</div>
+                {% endif %}
+                {% if object.photo %}
+                <div class="mt-2">
+                    <img src="{{ object.photo.url }}" alt="Фото оператора" class="img-thumbnail rounded-circle" width="150">
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" type="checkbox" name="photo-clear" id="photo-clear">
+                        <label class="form-check-label" for="photo-clear">
+                            Удалить текущее фото
+                        </label>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="{% url 'operator_list' %}" class="btn btn-secondary me-md-2">Отмена</a>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if object %}
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Рейсы оператора</h5>
+            </div>
+            <div class="card-body">
+                {% if object.flight_set.all %}
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Номер рейса</th>
+                                <th>Маршрут</th>
+                                <th>Время</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for flight in object.flight_set.all %}
+                            <tr>
+                                <td>{{ flight.number }}</td>
+                                <td>{{ flight.departure }} → {{ flight.destination }}</td>
+                                <td>{{ flight.departure_time|time:"H:i" }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted">Нет рейсов у этого оператора</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Заказы оператора</h5>
+            </div>
+            <div class="card-body">
+                {% if object.ticketorder_set.all %}
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>ID заказа</th>
+                                <th>Пассажир</th>
+                                <th>Статус</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in object.ticketorder_set.all|slice:":5" %}
+                            <tr>
+                                <td>#{{ order.id }}</td>
+                                <td>{{ order.passenger.name }}</td>
+                                <td>
+                                    <span class="badge 
+                                        {% if order.status == 'confirmed' %}bg-success
+                                        {% elif order.status == 'pending' %}bg-warning
+                                        {% else %}bg-danger{% endif %}">
+                                        {{ order.get_status_display }}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% if object.ticketorder_set.count > 5 %}
+                <div class="text-center mt-2">
+                    <small class="text-muted">и еще {{ object.ticketorder_set.count|add:"-5" }} заказов</small>
+                </div>
+                {% endif %}
+                {% else %}
+                <p class="text-muted">Нет заказов у этого оператора</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

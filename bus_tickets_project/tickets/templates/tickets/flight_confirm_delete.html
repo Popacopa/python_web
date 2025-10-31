@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Удаление рейса - Система заказа билетов{% endblock %}
+{% block header %}Удаление рейса{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <div class="alert alert-warning">
+            <h5 class="alert-heading">Внимание!</h5>
+            <p>Вы уверены, что хотите удалить рейс <strong>"{{ object.number }}"</strong>?</p>
+            <p class="mb-0">Все связанные заказы билетов также будут удалены. Это действие нельзя отменить.</p>
+        </div>
+        
+        <div class="card mb-3">
+            <div class="card-body">
+                <h6>Информация о рейсе:</h6>
+                <p><strong>Номер:</strong> {{ object.number }}</p>
+                <p><strong>Маршрут:</strong> {{ object.departure }} → {{ object.destination }}</p>
+                <p><strong>Тип автобуса:</strong> {{ object.bus_type.name }}</p>
+                <p><strong>Оператор:</strong> {{ object.operator.name }}</p>
+                <p><strong>Время:</strong> {{ object.departure_time|time:"H:i" }} - {{ object.arrival_time|time:"H:i" }}</p>
+                <p><strong>Цена:</strong> {{ object.base_price }} ₽</p>
+            </div>
+        </div>
+        
+        <form method="post">
+            {% csrf_token %}
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="{% url 'flight_list' %}" class="btn btn-secondary me-md-2">Отмена</a>
+                <button type="submit" class="btn btn-danger">Удалить</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

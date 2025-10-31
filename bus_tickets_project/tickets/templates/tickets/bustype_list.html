@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}Типы автобусов - Система заказа билетов{% endblock %}
+{% block header %}Типы автобусов{% endblock %}
+
+{% block actions %}
+<a href="{% url 'bustype_create' %}" class="btn btn-primary">
+    <i class="fas fa-plus"></i> Добавить тип автобуса
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Фото</th>
+                        <th>Название</th>
+                        <th>Вместимость</th>
+                        <th>Кондиционер</th>
+                        <th>Wi-Fi</th>
+                        <th>Кол-во рейсов</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bustype in bustypes %}
+                    <tr>
+                        <td>
+                            {% if bustype.photo %}
+                            <img src="{{ bustype.photo.url }}" alt="{{ bustype.name }}" class="rounded" width="50" height="50">
+                            {% else %}
+                            <div class="bg-light rounded d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                <i class="fas fa-bus text-muted"></i>
+                            </div>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <strong>{{ bustype.name }}</strong>
+                        </td>
+                        <td>{{ bustype.capacity }} мест</td>
+                        <td>
+                            {% if bustype.has_ac %}
+                            <span class="badge bg-success"><i class="fas fa-check"></i></span>
+                            {% else %}
+                            <span class="badge bg-secondary"><i class="fas fa-times"></i></span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if bustype.has_wifi %}
+                            <span class="badge bg-success"><i class="fas fa-check"></i></span>
+                            {% else %}
+                            <span class="badge bg-secondary"><i class="fas fa-times"></i></span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="badge bg-primary">{{ bustype.flight_set.count }}</span>
+                        </td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="#" class="btn btn-sm btn-outline-danger">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted">Типы автобусов не найдены</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Статистика по типам автобусов</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 text-center">
+                        <h3>{{ bustypes.count }}</h3>
+                        <p class="text-muted">Всего типов</p>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <h3 class="text-success">
+                            {{ bustypes|length|add:"0" }}
+                        </h3>
+                        <p class="text-muted">С кондиционером</p>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <h3 class="text-info">
+                            {{ bustypes|length|add:"0" }}
+                        </h3>
+                        <p class="text-muted">С Wi-Fi</p>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <h3 class="text-primary">
+                            {% widthratio bustypes|length 1 1 %}
+                        </h3>
+                        <p class="text-muted">Активных</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

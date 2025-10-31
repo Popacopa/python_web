@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Удаление рейса - Система заказа билетов{% endblock %}
+{% block header %}Удаление рейса{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h5 class="card-title mb-0">Подтверждение удаления</h5>
+            </div>
+            <div class="card-body text-center">
+                <i class="fas fa-exclamation-triangle fa-4x text-warning mb-3"></i>
+                <h4>Вы уверены, что хотите удалить рейс?</h4>
+                <p class="lead">{{ object.number }}</p>
+                <p class="text-muted">{{ object.departure }} → {{ object.destination }}</p>
+                
+                <div class="alert alert-warning">
+                    <i class="fas fa-info-circle"></i>
+                    Это действие нельзя отменить. Все связанные заказы также будут удалены.
+                </div>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                        <a href="{% url 'flight_list' %}" class="btn btn-secondary me-md-2">
+                            <i class="fas fa-times"></i> Отмена
+                        </a>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> Удалить
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

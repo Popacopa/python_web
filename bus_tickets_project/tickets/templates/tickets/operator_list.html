@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+
+{% block title %}Операторы - Система заказа билетов{% endblock %}
+{% block header %}Операторы{% endblock %}
+
+{% block actions %}
+<a href="{% url 'operator_create' %}" class="btn btn-primary">
+    <i class="fas fa-plus"></i> Добавить оператора
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Фото</th>
+                        <th>Имя</th>
+                        <th>Email</th>
+                        <th>Телефон</th>
+                        <th>Кол-во рейсов</th>
+                        <th>Кол-во заказов</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for operator in operators %}
+                    <tr>
+                        <td>
+                            {% if operator.photo %}
+                            <img src="{{ operator.photo.url }}" alt="{{ operator.name }}" class="rounded-circle" width="50" height="50">
+                            {% else %}
+                            <div class="bg-light rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                <i class="fas fa-user-tie text-muted"></i>
+                            </div>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <strong>{{ operator.name }}</strong>
+                        </td>
+                        <td>
+                            <a href="mailto:{{ operator.email }}">{{ operator.email }}</a>
+                        </td>
+                        <td>
+                            <a href="tel:{{ operator.phone }}">{{ operator.phone }}</a>
+                        </td>
+                        <td>
+                            <span class="badge bg-primary">{{ operator.flight_set.count }}</span>
+                        </td>
+                        <td>
+                            <span class="badge bg-success">{{ operator.ticketorder_set.count }}</span>
+                        </td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="#" class="btn btn-sm btn-outline-danger">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted">Операторы не найдены</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card text-white bg-primary">
+            <div class="card-body text-center">
+                <h3>{{ operators.count }}</h3>
+                <p class="mb-0">Всего операторов</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-success">
+            <div class="card-body text-center">
+                <h3>
+                    {% with total_flights=0 %}
+                    {% for operator in operators %}
+                    {% widthratio operator.flight_set.count 1 1 as op_flights %}
+                    {% endfor %}
+                    {{ total_flights }}
+                    {% endwith %}
+                </h3>
+                <p class="mb-0">Всего рейсов</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-warning">
+            <div class="card-body text-center">
+                <h3>
+                    {% with total_orders=0 %}
+                    {% for operator in operators %}
+                    {% widthratio operator.ticketorder_set.count 1 1 as op_orders %}
+                    {% endfor %}
+                    {{ total_orders }}
+                    {% endwith %}
+                </h3>
+                <p class="mb-0">Всего заказов</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header">
+        <h5>Статистика по операторам</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            {% for operator in operators %}
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            {% if operator.photo %}
+                            <img src="{{ operator.photo.url }}" alt="{{ operator.name }}" class="rounded-circle me-3" width="60" height="60">
+                            {% else %}
+                            <div class="bg-light rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 60px; height: 60px;">
+                                <i class="fas fa-user-tie text-muted"></i>
+                            </div>
+                            {% endif %}
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">{{ operator.name }}</h6>
+                                <p class="text-muted mb-1">{{ operator.email }}</p>
+                                <div class="d-flex">
+                                    <span class="badge bg-primary me-2">{{ operator.flight_set.count }} рейсов</span>
+                                    <span class="badge bg-success">{{ operator.ticketorder_set.count }} заказов</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

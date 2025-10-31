@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Удаление типа автобуса - Система заказа билетов{% endblock %}
+{% block header %}Удаление типа автобуса{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <div class="alert alert-warning">
+            <h5 class="alert-heading">Внимание!</h5>
+            <p>Вы уверены, что хотите удалить тип автобуса <strong>"{{ object.name }}"</strong>?</p>
+            <p class="mb-0">Все связанные рейсы будут также удалены. Это действие нельзя отменить.</p>
+        </div>
+        
+        <div class="card mb-3">
+            <div class="card-body">
+                <h6>Информация о типе автобуса:</h6>
+                <p><strong>Название:</strong> {{ object.name }}</p>
+                <p><strong>Вместимость:</strong> {{ object.capacity }} мест</p>
+                <p><strong>Кондиционер:</strong> {% if object.has_ac %}Да{% else %}Нет{% endif %}</p>
+                <p><strong>Wi-Fi:</strong> {% if object.has_wifi %}Да{% else %}Нет{% endif %}</p>
+                <p><strong>Кол-во рейсов:</strong> {{ object.flight_set.count }}</p>
+            </div>
+        </div>
+        
+        {% if object.flight_set.count > 0 %}
+        <div class="alert alert-danger">
+            <h6>Будут удалены следующие рейсы:</h6>
+            <ul class="mb-0">
+                {% for flight in object.flight_set.all|slice:":5" %}
+                <li>{{ flight.number }}: {{ flight.departure }} → {{ flight.destination }}</li>
+                {% endfor %}
+                {% if object.flight_set.count > 5 %}
+                <li>... и еще {{ object.flight_set.count|add:"-5" }} рейсов</li>
+                {% endif %}
+            </ul>
+        </div>
+        {% endif %}
+        
+        <form method="post">
+            {% csrf_token %}
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="{% url 'bustype_list' %}" class="btn btn-secondary me-md-2">Отмена</a>
+                <button type="submit" class="btn btn-danger">Удалить</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
