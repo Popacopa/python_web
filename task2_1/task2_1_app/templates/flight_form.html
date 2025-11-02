@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% if form.instance.pk %}Редактирование{% else %}Создание{% endif %} рейса</title>
+</head>
+<body>
+    <h1>{% if form.instance.pk %}Редактирование рейса{% else %}Создание нового рейса{% endif %}</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <button type="submit">Сохранить</button>
+    </form>
+    <br>
+    <a href="{% url 'flight_list' %}">Назад к списку рейсов</a>
+</body>
+</html>
