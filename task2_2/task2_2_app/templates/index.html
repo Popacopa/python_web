@@ -22,7 +22,7 @@
                     <td>{{ Race.time }}</td>
                     <td>{{ Race }}</td>
                     <td><a href="removeRace/{{Race.id}}"><button>Удалить</button></a></td>
-                    <td><button>Редактировать</button></td>
+                    <td><a href="form/editing/{{Race.id}}/?bus=false"><button>Редактировать</button></a></td>
                 </tr>
             {% endfor %}
         </table>
@@ -46,10 +46,10 @@
                     <td>{{ Bus.Busrace }}</td>
                     <td>{{ Bus.mileAge }}</td>
                     <td><a href="removeBuses/{{Bus.id}}"><button>Удалить</button></a></td>
-                    <td><button>Редактировать</button></td>
+                    <td><a href="form/editing/{{Bus.id}}/?bus=true"><button>Редактировать</button></a></td>
                 </tr>
             {% endfor %}
-        </table>
+        </table> 
         {% endif%}
         <a href="form/?bus=true"><button>Создать Автобус</button></a>
     </div>

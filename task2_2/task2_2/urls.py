@@ -25,5 +25,8 @@ urlpatterns = [
     path('removeRace/<int:num>', removingRaces),
     path('form/', form),
     path('form/addRace/', addRace),
-    path('form/addBus/', addBus)
+    path('form/addBus/', addBus),
+    path('form/editing/<int:id>/', editing),
+    path('form/editing/<int:id>/addBus/', editBus),
+    path('form/editing/<int:id>/addRace/', editRace),
 ]
