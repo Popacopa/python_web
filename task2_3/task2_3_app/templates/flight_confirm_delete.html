@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Удаление рейса {{ object.flight_number }}{% endblock %}
+{% block header %}Удаление рейса{% endblock %}
+
+{% block content %}
+<div style="padding: 20px; text-align: center;">
+    <h3>Вы уверены, что хотите удалить рейс "{{ object.flight_number }}"?</h3>
+    
+    <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0;">
+        <p><strong>Номер рейса:</strong> {{ object.flight_number }}</p>
+        <p><strong>Маршрут:</strong> {{ object.departure }} → {{ object.destination }}</p>
+        <p><strong>День недели:</strong> {{ object.day_of_week }}</p>
+        <p><strong>Время отправления:</strong> {{ object.departure_time }}</p>
+        <p><strong>Количество заказов:</strong> {{ object.ticketorder_set.count }}</p>
+    </div>
+
+    {% if object.ticketorder_set.count > 0 %}
+    <div style="background: #fff3cd; padding: 15px; border-radius: 5px; margin: 20px 0;">
+        <strong>Внимание!</strong> У этого рейса есть активные заказы. При удалении рейса все связанные заказы также будут удалены.
+    </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Да, удалить</button>
+        <a href="{% url 'task2_3:flight_list' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Удаление пассажира {{ object.name }}{% endblock %}
+{% block header %}Удаление пассажира{% endblock %}
+
+{% block content %}
+<div style="padding: 20px; text-align: center;">
+    <h3>Вы уверены, что хотите удалить пассажира "{{ object.name }}"?</h3>
+    
+    <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0;">
+        <p><strong>ФИО:</strong> {{ object.name }}</p>
+        <p><strong>Телефон:</strong> {{ object.phone|default:"-" }}</p>
+        <p><strong>Email:</strong> {{ object.email|default:"-" }}</p>
+        <p><strong>Количество заказов:</strong> {{ object.ticketorder_set.count }}</p>
+    </div>
+
+    {% if object.ticketorder_set.count > 0 %}
+    <div style="background: #fff3cd; padding: 15px; border-radius: 5px; margin: 20px 0;">
+        <strong>Внимание!</strong> У этого пассажира есть активные заказы. При удалении пассажира все его заказы также будут удалены.
+    </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Да, удалить</button>
+        <a href="{% url 'task2_3:passenger_list' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+{% endblock %}

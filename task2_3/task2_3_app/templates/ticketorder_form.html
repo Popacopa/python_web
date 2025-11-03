@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if object %}Редактирование заказа №{{ object.pk }}{% else %}Создание нового заказа{% endif %}
+{% endblock %}
+
+{% block header %}
+    {% if object %}Редактирование заказа №{{ object.pk }}{% else %}Создание нового заказа{% endif %}
+{% endblock %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    
+    <div class="form-group">
+        <label for="id_passenger">Пассажир:</label>
+        {{ form.passenger }}
+        {% if form.passenger.errors %}
+        <div style="color: red; font-size: 12px;">
+            {{ form.passenger.errors }}
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="form-group">
+        <label for="id_flight">Рейс:</label>
+        {{ form.flight }}
+        {% if form.flight.errors %}
+        <div style="color: red; font-size: 12px;">
+            {{ form.flight.errors }}
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="form-group">
+        <label for="id_seat_number">Номер места:</label>
+        {{ form.seat_number }}
+        {% if form.seat_number.errors %}
+        <div style="color: red; font-size: 12px;">
+            {{ form.seat_number.errors }}
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="form-group">
+        <label for="id_order_status">Статус заказа:</label>
+        {{ form.order_status }}
+        {% if form.order_status.errors %}
+        <div style="color: red; font-size: 12px;">
+            {{ form.order_status.errors }}
+        </div>
+        {% endif %}
+    </div>
+
+    <div style="margin-top: 20px;">
+        <button type="submit" class="btn btn-success">
+            {% if object %}Сохранить изменения{% else %}Создать заказ{% endif %}
+        </button>
+        <a href="{% url 'task2_3:ticketorder_list' %}" class="btn btn-secondary">Отмена</a>
+    </div>
+</form>
+
+{% if object %}
+<div style="margin-top: 30px; padding: 15px; background: #f8f9fa; border-radius: 5px;">
+    <h4>Информация о заказе:</h4>
+    <p><strong>Пассажир:</strong> {{ object.passenger.name }} ({{ object.passenger.phone }})</p>
+    <p><strong>Рейс:</strong> {{ object.flight.flight_number }} - {{ object.flight.departure }} → {{ object.flight.destination }}</p>
+    <p><strong>День отправления:</strong> {{ object.flight.day_of_week }}</p>
+    <p><strong>Время отправления:</strong> {{ object.flight.departure_time }}</p>
+    <p><strong>Дата создания заказа:</strong> {{ object.order_date|date:"d.m.Y H:i" }}</p>
+</div>
+{% endif %}
+{% endblock %}

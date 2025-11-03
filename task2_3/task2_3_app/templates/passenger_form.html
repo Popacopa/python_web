@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if object %}Редактирование пассажира {{ object.name }}{% else %}Добавление пассажира{% endif %}
+{% endblock %}
+
+{% block header %}
+    {% if object %}Редактирование пассажира {{ object.name }}{% else %}Добавление пассажира{% endif %}
+{% endblock %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    
+    <div class="form-group">
+        <label for="id_name">ФИО пассажира:</label>
+        {{ form.name }}
+        {% if form.name.errors %}
+        <div style="color: red; font-size: 12px;">
+            {{ form.name.errors }}
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="form-group">
+        <label for="id_phone">Телефон:</label>
+        {{ form.phone }}
+        {% if form.phone.errors %}
+        <div style="color: red; font-size: 12px;">
+            {{ form.phone.errors }}
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="form-group">
+        <label for="id_email">Email:</label>
+        {{ form.email }}
+        {% if form.email.errors %}
+        <div style="color: red; font-size: 12px;">
+            {{ form.email.errors }}
+        </div>
+        {% endif %}
+    </div>
+
+    <div style="margin-top: 20px;">
+        <button type="submit" class="btn btn-success">
+            {% if object %}Сохранить изменения{% else %}Создать пассажира{% endif %}
+        </button>
+        <a href="{% url 'task2_3:passenger_list' %}" class="btn btn-secondary">Отмена</a>
+    </div>
+</form>
+
+{% if object %}
+<div style="margin-top: 30px; padding: 15px; background: #f8f9fa; border-radius: 5px;">
+    <h4>История заказов:</h4>
+    {% if object.ticketorder_set.all %}
+    <ul>
+        {% for order in object.ticketorder_set.all %}
+        <li>
+            {{ order.flight }} - Место {{ order.seat_number }} 
+            ({{ order.get_order_status_display }}) - {{ order.order_date|date:"d.m.Y" }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Нет заказов</p>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

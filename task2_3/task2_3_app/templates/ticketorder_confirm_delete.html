@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Удаление заказа №{{ object.pk }}{% endblock %}
+{% block header %}Удаление заказа билета{% endblock %}
+
+{% block content %}
+<div style="padding: 20px; text-align: center;">
+    <h3>Вы уверены, что хотите удалить этот заказ?</h3>
+    
+    <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0;">
+        <p><strong>Пассажир:</strong> {{ object.passenger.name }}</p>
+        <p><strong>Рейс:</strong> {{ object.flight }}</p>
+        <p><strong>Место:</strong> {{ object.seat_number }}</p>
+        <p><strong>Статус:</strong> {{ object.get_order_status_display }}</p>
+        <p><strong>Дата заказа:</strong> {{ object.order_date|date:"d.m.Y H:i" }}</p>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Да, удалить</button>
+        <a href="{% url 'task2_3:ticketorder_list' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+{% endblock %}
