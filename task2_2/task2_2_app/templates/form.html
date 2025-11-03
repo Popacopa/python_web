@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static%}
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static "styles/style.css" %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create</title>
+</head>
+<body>
+    <div class="wrapper">
+        {% if isBusForm == "true" %}
+            <form method="post" action="addBus/">
+        {% else %}
+            <form method="post" action="addRace/">
+        {% endif %}
+        
+            {% csrf_token %} 
+
+            <input {% if isBusForm == "true" %}name="number" type="text" placeholder="number" {% else %} name="date" type="date"{% endif %}>
+            <input {% if isBusForm == "true" %}name="mileAge" type="text" placeholder="mileAge" {% else %} name="time" type="time"{% endif %}>
+
+            {% if isBusForm == "true" %}
+                <select name="race" id="">
+                    {% for Race in BusRaces%}
+                    <option value="{{Race.id}}">{{Race.fromTo}}</option>
+                    {%endfor%}
+                </select>
+            {% else %}
+                <select name="race" id="">
+                    {% for Race in BusRaces%}
+                    <option value="{{Race.id}}">{{Race.fromTo}}</option>
+                    {%endfor%}
+                </select>
+            {% endif %}
+            <input type="submit" value="Отправить">
+        </form>
+    </div>
+</body>
+</html>

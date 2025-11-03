@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static "styles/style.css"%}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1 to many relationtype</title>
+</head>
+<body>
+    <div class="wrapper">
+        {% if BusRaces %}
+        <table>
+            <tr>
+                <th>Дата</th>
+                <th>Время</th>
+                <th>Маршрут</th>
+            </tr>
+            {% for Race in BusRaces %}
+                <tr>
+                    <td>{{ Race.date }}</td>
+                    <td>{{ Race.time }}</td>
+                    <td>{{ Race }}</td>
+                    <td><a href="removeRace/{{Race.id}}"><button>Удалить</button></a></td>
+                    <td><button>Редактировать</button></td>
+                </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+        <a href="form/?bus=false"><button>Создать Маршрут</button></a>
+    </div>
+
+
+
+    <div class="wrapper">
+        {% if Buses %}
+        <table>
+            <tr>
+                <th>Номер</th>
+                <th>Маршрут</th>
+                <th>Год эксплуатации</th>
+            </tr>
+            {% for Bus in Buses %}
+                <tr>
+                    <td>{{ Bus.number }}</td>
+                    <td>{{ Bus.Busrace }}</td>
+                    <td>{{ Bus.mileAge }}</td>
+                    <td><a href="removeBuses/{{Bus.id}}"><button>Удалить</button></a></td>
+                    <td><button>Редактировать</button></td>
+                </tr>
+            {% endfor %}
+        </table>
+        {% endif%}
+        <a href="form/?bus=true"><button>Создать Автобус</button></a>
+    </div>
+</body>
+</html>
