@@ -9,6 +9,7 @@
 </head>
 <body>
     <div class="wrapper">
+        <h2>Марштуры</h2>
         {% if BusRaces %}
         <table>
             <tr>
@@ -21,18 +22,19 @@
                     <td>{{ Race.date }}</td>
                     <td>{{ Race.time }}</td>
                     <td>{{ Race }}</td>
-                    <td><a href="removeRace/{{Race.id}}"><button>Удалить</button></a></td>
-                    <td><a href="form/editing/{{Race.id}}/?bus=false"><button>Редактировать</button></a></td>
+                    <td><a href="removeRace/{{Race.id}}"><button class="deleteButton">Удалить</button></a></td>
+                    <td><a href="form/editing/{{Race.id}}/?bus=false"><button class="editButton">Редактировать</button></a></td>
                 </tr>
             {% endfor %}
         </table>
         {% endif %}
-        <a href="form/?bus=false"><button>Создать Маршрут</button></a>
+        <a href="form/?bus=false"><button class="eddButton">Создать Маршрут</button></a>
     </div>
 
 
 
     <div class="wrapper">
+        <h2>Автобусы</h2>
         {% if Buses %}
         <table>
             <tr>
@@ -45,13 +47,13 @@
                     <td>{{ Bus.number }}</td>
                     <td>{{ Bus.Busrace }}</td>
                     <td>{{ Bus.mileAge }}</td>
-                    <td><a href="removeBuses/{{Bus.id}}"><button>Удалить</button></a></td>
-                    <td><a href="form/editing/{{Bus.id}}/?bus=true"><button>Редактировать</button></a></td>
+                    <td><a href="removeBuses/{{Bus.id}}"><button class="deleteButton">Удалить</button></a></td>
+                    <td><a href="form/editing/{{Bus.id}}/?bus=true"><button class="editButton">Редактировать</button></a></td>
                 </tr>
             {% endfor %}
         </table> 
         {% endif%}
-        <a href="form/?bus=true"><button>Создать Автобус</button></a>
+        <a href="form/?bus=true"><button class="eddButton">Создать Автобус</button></a>
     </div>
 </body>
 </html>

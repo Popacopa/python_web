@@ -17,23 +17,23 @@
         
             {% csrf_token %} 
 
-            <input {% if isBusForm == "true" %}name="number" type="text" placeholder="number" {% else %} name="date" type="date"{% endif %}>
-            <input {% if isBusForm == "true" %}name="mileAge" type="text" placeholder="mileAge" {% else %} name="time" type="time"{% endif %}>
+            <input class="inputArea" {% if isBusForm == "true" %}name="number" type="text" placeholder="number" {% else %} name="date" type="date"{% endif %}>
+            <input class="inputArea" {% if isBusForm == "true" %}name="mileAge" type="text" placeholder="mileAge" {% else %} name="time" type="time"{% endif %}>
 
             {% if isBusForm == "true" %}
-                <select name="race" id="">
+                <select class="inputArea" name="race" id="">
                     {% for Race in BusRaces%}
                     <option value="{{Race.id}}">{{Race.fromTo}}</option>
                     {%endfor%}
                 </select>
             {% else %}
-                <select name="race" id="">
+                <select class="inputArea" name="race" id="">
                     {% for Race in BusRaces%}
                     <option value="{{Race.id}}">{{Race.fromTo}}</option>
                     {%endfor%}
                 </select>
             {% endif %}
-            <input type="submit" value="Отправить">
+            <input class="submitButton" type="submit" value="Отправить">
         </form>
     </div>
 </body>
