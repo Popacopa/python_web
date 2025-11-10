@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h4>Подтверждение удаления</h4>
+            </div>
+            <div class="card-body">
+                <p>Вы уверены, что хотите удалить пассажира <strong>{{ passenger.name }}</strong>?</p>
+                <p>Паспорт: {{ passenger.passport_number }}</p>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger">Да, удалить</button>
+                        <a href="{% url 'passenger_list' %}" class="btn btn-secondary">Отмена</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

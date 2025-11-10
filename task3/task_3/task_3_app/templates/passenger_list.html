@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Пассажиры</h2>
+    <a href="{% url 'passenger_create' %}" class="btn btn-success">Добавить пассажира</a>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ФИО</th>
+            <th>Паспорт</th>
+            <th>Телефон</th>
+            <th>Email</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for passenger in passengers %}
+        <tr>
+            <td>
+                {% if passenger.photo %}
+                    <img src="{{ passenger.photo.url }}" alt="{{ passenger.name }}" class="avatar-sm">
+                {% endif %}
+                {{ passenger.name }}
+            </td>
+            <td>{{ passenger.passport_number }}</td>
+            <td>{{ passenger.phone }}</td>
+            <td>{{ passenger.email|default:"-" }}</td>
+            <td>
+                <a href="{% url 'passenger_edit' passenger.pk %}" class="btn btn-warning btn-sm">Редактировать</a>
+                <a href="{% url 'passenger_delete' passenger.pk %}" class="btn btn-danger btn-sm">Удалить</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5" class="text-center">Нет пассажиров</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

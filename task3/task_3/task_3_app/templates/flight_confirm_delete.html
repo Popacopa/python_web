@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h4>Подтверждение удаления</h4>
+            </div>
+            <div class="card-body">
+                <p>Вы уверены, что хотите удалить рейс <strong>{{ flight.number }}</strong>?</p>
+                <p>Маршрут: {{ flight.departure_city }} - {{ flight.arrival_city }}</p>
+                <p>День: {{ flight.get_day_of_week_display }}</p>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger">Да, удалить</button>
+                        <a href="{% url 'flight_list' %}" class="btn btn-secondary">Отмена</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
