@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static "/style/style.css"%}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneToOneRelationship</title>
+</head>
+<body>
+    <div class="wrapper">
+        <h2>Drivers</h2>
+    <table>
+        <tr>
+            <td>стаж</td>
+            <td>возраст</td>
+            <td>Имя</td>
+            <td>Фамилия</td>
+        </tr>
+        {%for driver in drivers%}
+        <tr>
+            <td>{{driver.stage}}</td>
+            <td>{{driver.age}}</td>
+            <td>{{driver.first_name}}</td>
+            <td>{{driver.last_name}}</td>
+            <td>
+                <button class="button delete">Удалить</button>
+            </td>
+            <td>
+                <button class="button update">Редактировать</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <button class="button add" >Добавить</button>
+ 
+    <h2>Routes</h2>
+    <table>
+        <tr>
+            <td>начало</td>
+            <td>конец</td>
+            <td>водитель</td>
+        </tr>
+        {%for route in routes%}
+        <tr>
+            <td>{{route.city_from}}</td>
+            <td>{{route.city_to}}</td>
+            <td>{{route.driver_id}}</td>
+            <td><button class="button delete">Удалить</button></td>
+            <td><button class="button update">Редактировать</button></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <button class="button add" >Добавить</button>
+    </div>
+</body> 
+</html>

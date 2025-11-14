@@ -1,0 +1,38 @@
+body {
+  background-color: rgb(72, 72, 72);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: rgb(235, 234, 234);
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+td {
+  margin: 10px;
+}
+
+.button {
+  height: 30px;
+  border: none;
+  border-radius: 10px;
+  color: rgb(235, 234, 234);
+  font-size: 14px;
+  margin: 5px 5px 0 0;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.button:hover {
+  transform: scale(1.1, 1.1);
+}
+
+.delete {
+  background-color: rgb(194, 77, 77);
+}
+
+.update {
+  background-color: rgb(77, 118, 194);
+}
+
+.add {
+  background-color: rgb(77, 194, 122);
+}/*# sourceMappingURL=style.css.map */
