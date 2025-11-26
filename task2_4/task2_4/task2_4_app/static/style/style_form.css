@@ -36,4 +36,17 @@ td {
 
 .add {
   background-color: rgb(77, 194, 122);
-}/*# sourceMappingURL=style.css.map */
+}
+
+.wrapper {
+  border: 1px solid black;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  margin: 10px;
+}/*# sourceMappingURL=style_form.css.map */

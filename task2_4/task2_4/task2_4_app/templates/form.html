@@ -1,15 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static "style/style_form.css"%}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>form</title>
 </head>
 <body>
     <div class="wrapper">
-        <form action="submit/">
-
+        {% if item == "driver" %}
+        <form class="form" action="" method="post">
+            {%csrf_token%}
+            <input type="text" name="first_name">
+            <input type="text" name="last_name">
+            <input type="number" name="age">
+            <input type="number" name="stage">
+            <input type="submit" class="button">
         </form>
+        {% endif %}
+
+        {% if item == "route" %}
+        <form class="form" action="" method="post">
+            {%csrf_token%}
+            <input type="text" name="city_from">
+            <input type="text" name="city_to">
+            <select type="number" name="driver_id">
+                {% for driver in drivers %}
+                <option value="{{driver.id}}">{{driver}}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" class="button">
+        </form>
+        {% endif %}
     </div>
 </body>
 </html>

@@ -24,15 +24,15 @@
             <td>{{driver.first_name}}</td>
             <td>{{driver.last_name}}</td>
             <td>
-                <button class="button delete">Удалить</button>
+                <a href="delete/driver/{{driver.id}}"><button class="button delete">Удалить</button></a>
             </td>
             <td>
-                <button class="button update">Редактировать</button>
+                <a href="update/driver/{{driver.id}}"><button class="button update">Редактировать</button></a>
             </td>
         </tr>
         {% endfor %}
     </table>
-    <button class="button add" >Добавить</button>
+    <a href="addItem/driver/"><button class="button add" >Добавить</button></a>
  
     <h2>Routes</h2>
     <table>
@@ -46,12 +46,12 @@
             <td>{{route.city_from}}</td>
             <td>{{route.city_to}}</td>
             <td>{{route.driver_id}}</td>
-            <td><button class="button delete">Удалить</button></td>
-            <td><button class="button update">Редактировать</button></td>
+            <td><a href="delete/route/{{route.driver_id}}"><button class="button delete">Удалить</button></a></td>
+            <td><a href="update/route/{{route.driver_id}}"><button class="button update">Редактировать</button></a></td>
         </tr>
         {% endfor %}
     </table>
-    <button class="button add" >Добавить</button>
+    <a href="addItem/route/"><button class="button add" >Добавить</button></a>
     </div>
 </body> 
 </html>

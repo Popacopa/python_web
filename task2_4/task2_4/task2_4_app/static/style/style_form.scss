@@ -1,0 +1,17 @@
+@import "./style.scss";
+
+
+
+.wrapper {
+    border: 1px solid black;
+    
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    margin: 10px;
+}
