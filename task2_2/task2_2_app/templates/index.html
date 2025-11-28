@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static "styles/style.css"%}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1 to many relationtype</title>
+</head>
+<body>
+    <div class="wrapper">
+        <h2>Марштуры</h2>
+        {% if BusRaces %}
+        <table>
+            <tr>
+                <th>Дата</th>
+                <th>Время</th>
+                <th>Маршрут</th>
+            </tr>
+            {% for Race in BusRaces %}
+                <tr>
+                    <td>{{ Race.date }}</td>
+                    <td>{{ Race.time }}</td>
+                    <td>{{ Race }}</td>
+                    <td><a href="removeRace/{{Race.id}}"><button class="deleteButton">Удалить</button></a></td>
+                    <td><a href="form/editing/{{Race.id}}/?bus=false"><button class="editButton">Редактировать</button></a></td>
+                </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+        <a href="form/?bus=false"><button class="eddButton">Создать Маршрут</button></a>
+    </div>
+
+
+
+    <div class="wrapper">
+        <h2>Автобусы</h2>
+        {% if Buses %}
+        <table>
+            <tr>
+                <th>Номер</th>
+                <th>Маршрут</th>
+                <th>Год эксплуатации</th>
+            </tr>
+            {% for Bus in Buses %}
+                <tr>
+                    <td>{{ Bus.number }}</td>
+                    <td>{{ Bus.Busrace }}</td>
+                    <td>{{ Bus.mileAge }}</td>
+                    <td><a href="removeBuses/{{Bus.id}}"><button class="deleteButton">Удалить</button></a></td>
+                    <td><a href="form/editing/{{Bus.id}}/?bus=true"><button class="editButton">Редактировать</button></a></td>
+                </tr>
+            {% endfor %}
+        </table> 
+        {% endif%}
+        <a href="form/?bus=true"><button class="eddButton">Создать Автобус</button></a>
+    </div>
+</body>
+</html>
